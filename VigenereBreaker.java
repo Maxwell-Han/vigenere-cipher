@@ -31,4 +31,25 @@ public class VigenereBreaker {
         System.out.println("the decrypted message from vigenere cipher is " + decrypted);
     }
     
+    // reads from dictionary file which is one word per line
+    public HashSet readDictionary (FileResource fr) {
+        HashSet<String> set = new HashSet<String>();
+        for(String line : fr.lines() ) {
+            set.add(line.toLowerCase());
+        }
+        return set;
+    }
+
+    public int countWords (String message, HashSet, dict) {
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList(message.split("\\W")));
+        int count = 0;
+        for(String word : words) {
+            if(dict.contains(word.toLowerCase())) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    
 }
