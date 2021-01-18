@@ -25,6 +25,39 @@ public class Tester {
 		String encrypted = cc.encrypt(fileString);
 		String decryptedFromCracker = cracker.decrypt(encrypted);
 		System.out.println("the cracker has decrypted the message to be " + decryptedFromCracker);
-		
+	}
+
+	// encrypt and decrypt with vigenere cipher from stringified file
+	public void testVigenere () {
+		int[] keys = {17, 14, 12, 4};
+		VigenereCipher vc = new VigenereCipher(keys);
+		FileResource fr = new FileResource();
+		String fileString = fr.asString();
+		String encrypted = vc.encrypt(fileString);
+		String decrypted = vc.decrypt(encrypted);
+		System.out.println("the original message is " + fileString);
+		System.out.println("the encrypted message is " + encrypted);
+		System.out.println("the decrypted message is " + decrypted);
+	}	
+
+	public void testVigenereBreaker () {
+		VigenereBreaker vb = new VigenereBreaker();
+		String testString = "abcdefghijklm";
+		String result = vb.sliceString(testString, 3, 4);
+		System.out.println("testing sliceString result is "  + result);
+	}
+
+	public void testVBTryKeyLength () {
+		VigenereBreaker vb = new VigenereBreaker();
+		int[] keys = {5, 11, 20, 19, 4}; // flute is key
+		VigenereCipher vc = new VigenereCipher(keys);
+
+		FileResource fr = new FileResource();
+		String fileString = fr.asString();
+		int len = keys.length;
+		int[] key = vb.tryKeyLength(fileString, len, 'e');
+		for(int k : key) {
+			System.out.println("found key " + k);
+		}
 	}
 }
