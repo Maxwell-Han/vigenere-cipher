@@ -72,5 +72,17 @@ public class Tester {
         vb.breakVigenere();
     }
     
+    public void practiceQuiz2TestKeyLength () {
+       VigenereBreaker vb = new VigenereBreaker();
+       FileResource fr = new FileResource("messages/secretmessage2.txt");
+       String fileString = fr.asString();
+       int[] keys = vb.tryKeyLength(fileString, 38, 'e');
+       VigenereCipher vc = new VigenereCipher(keys);
+       String decrypted = vc.decrypt(fileString);
+       FileResource dictionaryFile = new FileResource("dictionaries/English");
+       HashSet dict = vb.readDictionary(dictionaryFile);
+       int count = vb.countWords(decrypted, dict);
+       System.out.println("found valid words: " + count);
+    }
     
 }

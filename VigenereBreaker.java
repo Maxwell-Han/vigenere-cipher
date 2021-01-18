@@ -40,7 +40,7 @@ public class VigenereBreaker {
         return set;
     }
 
-    public int countWords (String message, HashSet, dict) {
+    public int countWords (String message, HashSet dict) {
         ArrayList<String> words = new ArrayList<String>(Arrays.asList(message.split("\\W")));
         int count = 0;
         for(String word : words) {
@@ -51,5 +51,40 @@ public class VigenereBreaker {
         return count;
     }
 
-    
+    public String breakForLanguage(String encrypted, HashSet<String> dict) {
+        int maxCount = 0;
+        int[] keys = {};
+        int kLen = 0;
+        String decrypted = new String();
+
+        for(int i = 1; i < 100; i++) {
+            keys = tryKeyLength(encrypted, i, 'e');
+            VigenereCipher vCipher = new VigenereCipher(keys);
+            String currentDecrypted = vCipher.decrypt(encrypted);
+            int currCount = countWords(currentDecrypted, dict);
+            if(currCount > maxCount) {
+                maxCount = currCount;
+                decrypted = currentDecrypted;
+                kLen = i;
+            }
+        }
+
+        System.out.println("most words found: " + maxCount);
+        System.out.println("key length: " + kLen);
+        System.out.println("the keys are :");
+        for (int k : keys) {
+            System.out.println(k);
+        }
+        return decrypted;
+    }
+
+    public void breakVigenereUnknownLength () {
+        FileResource fr = new FileResource();
+        String fileString = fr.asString(); // file should be encrypted already
+        FileResource dictionaryFile = new FileResource("dictionaries/English");
+        HashSet dict = readDictionary(dictionaryFile);
+        String result = breakForLanguage(fileString, dict);
+        System.out.println("The decrypted message is ");
+        System.out.println(result.substring(0, 200));
+    }
 }
