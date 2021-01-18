@@ -24,7 +24,7 @@ public class VigenereBreaker {
     public void breakVigenere () {
         FileResource fr = new FileResource();
         String fileString = fr.asString(); // file should be encrypted already
-        int klen = 5;
+        int klen = 4;
         int[] keys = tryKeyLength(fileString, klen, 'e');
         VigenereCipher vCipher = new VigenereCipher(keys);
         String decrypted = vCipher.decrypt(fileString);
